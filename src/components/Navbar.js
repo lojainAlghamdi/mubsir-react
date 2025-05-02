@@ -43,7 +43,7 @@ function Navbar({ onLoginClick, onSignupClick }) {
                 state={{ scrollTo: "about" }}
                 className="nav-link px-3"
               >
-                About Us
+                Home
               </Link>
             </li>
             <li className="nav-item">

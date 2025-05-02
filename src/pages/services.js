@@ -3,7 +3,7 @@ import "../styles.css";
 
 export default function Services({ services = []}) {
   return (
-    <section className="services">
+    <section className="services py-5">
       <div className="container">
         <h2 className="text-center mb-5">Our Services</h2>
         <div className="row" >

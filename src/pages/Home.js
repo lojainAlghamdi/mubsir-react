@@ -6,6 +6,7 @@ import "../styles.css";
 import LoginModal from "../pages/Login";
 import SignupModal from "../pages/Signup";
 import Services from './services';
+import CampusAccess from './CampusAccess';
 
 function Home() {
   const [showLogin, setShowLogin] = useState(false);
@@ -13,20 +14,18 @@ function Home() {
   const location = useLocation();
 
   const contactUsRef = useRef(null);
-  const servicesRef = useRef(null);
 
   const handleScrollToContactUs = () => {
     if (contactUsRef.current) {
       contactUsRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  };
+  }; 
 
   useEffect(() => {
-    if (location.state?.scrollTo === "about" && servicesRef.current) {
-      servicesRef.current.scrollIntoView({ behavior: "smooth" });
-    }
     if (location.state?.scrollTo === "contact" && contactUsRef.current) {
       contactUsRef.current.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [location]);
 
@@ -48,6 +47,31 @@ function Home() {
     },
   ];
 
+  const buildings = [
+    {
+      image: "/images/library.jpeg",
+      title: "Central Library",
+      description:
+        "The Central Library (Female Campus) is a vital academic library offering a wide range of scholarly resources, study areas, and integrated research services to support the learning and research needs of female students.",
+      link: "https://maps.app.goo.gl/PdXBRqDNdkwz2ykS6?g_st=com.google.maps.preview.copy",
+    },
+    {
+      image: "/images/KingFisal.jpg",
+      title: "King Faisal Conference Center",
+      description:
+        "It is one of the most modern venues for hosting exhibitions and conferences. It is designed to serve the university's needs and consists of several halls, theatres, and exhibition spaces, all equipped with the latest modern technologies and facilities.",
+      link: "https://maps.app.goo.gl/ktet6TqJVqz5CPGP8?g_st=com.google.maps.preview.copy",
+    },
+    {
+      image: "/images/building66.jpg",
+      title: "Deanships - Building 66 ",
+      description:
+        "Houses several key deanships including Admissions and Registration, Distance Learning, Community Service, and Graduate Studies. It serves as an administrative and academic services center for students and visitors.",
+      link: "https://maps.app.goo.gl/xfxLJitXE3UfYVt59?g_st=com.google.maps.preview.copy",
+    },
+  ];
+  
+
   return (
     <>
       {/* Navbar */}
@@ -59,6 +83,7 @@ function Home() {
 
       {/* Blur effect wrapper if modals are open */}
       <div className={showLogin || showSignup ? "blur-background" : ""}>
+
         {/* Hero Section */}
         <header className="home" id="home">
           <div className="container">
@@ -84,8 +109,13 @@ function Home() {
         </header>
 
         {/* Services Section */}
-        <div ref={servicesRef}>
+        <div>
           <Services services={services} />
+        </div>
+
+        {/* CampusAccess Section */}
+        <div>
+        <CampusAccess buildings={buildings} /> 
         </div>
       </div>
 

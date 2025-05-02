@@ -16,7 +16,7 @@ export default function SignupModal() {
       return;
     }
 
-    setError('');
+    setError(''); 
 
     // Save to localStorage or POST to fake DB
     const newUser = { email, password };
