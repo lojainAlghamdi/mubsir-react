@@ -1,19 +1,23 @@
 import React, { useState, useRef, useEffect } from "react";
 import Navbar from "../components/Navbar";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles.css";
 import LoginModal from "../pages/Login";
 import SignupModal from "../pages/Signup";
 import Services from './services';
 import CampusAccess from './CampusAccess';
+import { useContext } from "react";
+import { AuthContext } from "../AuthContext";
+
 
 function Home() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
-  const location = useLocation();
 
   const contactUsRef = useRef(null);
+  const { isLoggedIn, user } = useContext(AuthContext);
+
 
   const handleScrollToContactUs = () => {
     if (contactUsRef.current) {
@@ -22,12 +26,34 @@ function Home() {
   }; 
 
   useEffect(() => {
-    if (location.state?.scrollTo === "contact" && contactUsRef.current) {
-      contactUsRef.current.scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }, [location]);
+    const handleOpenLogin = () => {
+      setShowSignup(false);
+      setShowLogin(true);
+    };
+  
+    window.addEventListener("openLogin", handleOpenLogin);
+  
+    return () => {
+      window.removeEventListener("openLogin", handleOpenLogin);
+    };
+
+
+  }, []);
+
+  useEffect(() => {
+    const handleOpenSignup = () => {
+      setShowLogin(false);
+      setShowSignup(true);
+    };
+  
+    window.addEventListener("openSignup", handleOpenSignup);
+  
+    return () => {
+      window.removeEventListener("openSignup", handleOpenSignup);
+    };
+  }, []);
+
+  
 
   const services = [
     {
@@ -70,6 +96,7 @@ function Home() {
       link: "https://maps.app.goo.gl/xfxLJitXE3UfYVt59?g_st=com.google.maps.preview.copy",
     },
   ];
+  
   
 
   return (

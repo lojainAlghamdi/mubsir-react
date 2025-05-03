@@ -5,18 +5,18 @@ import Home from "./pages/Home";
 import Schedule from "./pages/Schedule";
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import { AuthProvider } from "./AuthContext"; 
 
 function App() {
   return (
     <Router>
+    <AuthProvider>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/schedule" element={<Schedule />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
       </Routes>
-    </Router>
-  );
+    </AuthProvider>
+  </Router>
+);
 }
-
 export default App;

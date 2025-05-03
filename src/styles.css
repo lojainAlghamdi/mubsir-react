@@ -340,7 +340,29 @@ input::placeholder {
 .error-message {
   color: red;
   font-size: 14px;
+  margin-bottom: 10px;
+  text-align: left;
 }
+
+.modal-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  color: #333;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.link-like {
+  color: #254B33;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 
 /* ---------------------- Contact Us Section ---------------------- */
 #contact-us {
