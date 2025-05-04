@@ -1,43 +1,34 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { Link } from "react-router-dom";
+import LoginModal from "./Login";
+import SignupModal from "./Signup";
+import Services from "./services";
+import CampusAccess from "./CampusAccess";
+import { AuthContext } from "../AuthContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles.css";
-import LoginModal from "../pages/Login";
-import SignupModal from "../pages/Signup";
-import Services from './services';
-import CampusAccess from './CampusAccess';
-import { useContext } from "react";
-import { AuthContext } from "../AuthContext";
-
 
 function Home() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
-
   const contactUsRef = useRef(null);
+  const location = useLocation();
   const { isLoggedIn, user } = useContext(AuthContext);
 
-
-  const handleScrollToContactUs = () => {
-    if (contactUsRef.current) {
-      contactUsRef.current.scrollIntoView({ behavior: "smooth" });
+  useEffect(() => {
+    if (location.state?.scrollTo === "contact") {
+      contactUsRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }; 
+  }, [location]);
 
   useEffect(() => {
     const handleOpenLogin = () => {
       setShowSignup(false);
       setShowLogin(true);
     };
-  
     window.addEventListener("openLogin", handleOpenLogin);
-  
-    return () => {
-      window.removeEventListener("openLogin", handleOpenLogin);
-    };
-
-
+    return () => window.removeEventListener("openLogin", handleOpenLogin);
   }, []);
 
   useEffect(() => {
@@ -45,31 +36,28 @@ function Home() {
       setShowLogin(false);
       setShowSignup(true);
     };
-  
     window.addEventListener("openSignup", handleOpenSignup);
-  
-    return () => {
-      window.removeEventListener("openSignup", handleOpenSignup);
-    };
+    return () => window.removeEventListener("openSignup", handleOpenSignup);
   }, []);
-
-  
 
   const services = [
     {
       icon: "/images/schedule-icon.png",
       title: "Creating Your Schedule",
-      description: "Create your personalized schedule and locate your classes with MUBSIR.",
+      description:
+        "Create your personalized schedule and locate your classes with MUBSIR.",
     },
     {
       icon: "/images/map-icon.png",
       title: "Interactive 2D/3D Campus Navigation",
-      description: "Provides an interactive map to help students locate classrooms and navigate FCIT campus.",
+      description:
+        "Provides an interactive map to help students locate classrooms and navigate FCIT campus.",
     },
     {
       icon: "/images/route-icon.png",
       title: "Classroom Route Assistance",
-      description: "Directs students from the main entrance of each floor to their designated classrooms.",
+      description:
+        "Directs students from the main entrance of each floor to their designated classrooms.",
     },
   ];
 
@@ -96,21 +84,15 @@ function Home() {
       link: "https://maps.app.goo.gl/xfxLJitXE3UfYVt59?g_st=com.google.maps.preview.copy",
     },
   ];
-  
-  
 
   return (
     <>
-      {/* Navbar */}
       <Navbar
         onLoginClick={() => setShowLogin(true)}
         onSignupClick={() => setShowSignup(true)}
-        onScrollToContactUs={handleScrollToContactUs}
       />
 
-      {/* Blur effect wrapper if modals are open */}
       <div className={showLogin || showSignup ? "blur-background" : ""}>
-
         {/* Hero Section */}
         <header className="home" id="home">
           <div className="container">
@@ -118,7 +100,8 @@ function Home() {
               <div className="col-md-6">
                 <h1 className="hero-title">Mubsir Campus Navigation</h1>
                 <p className="hero-text">
-                  Find Your Way to Every Class, Every Time at FCIT Campus. Never miss a class, never be late!
+                  Find Your Way to Every Class, Every Time at FCIT Campus. Never
+                  miss a class, never be late!
                 </p>
                 <Link to="/schedule" className="btn btn-dark hero-button">
                   Create Schedule
@@ -142,7 +125,7 @@ function Home() {
 
         {/* CampusAccess Section */}
         <div>
-        <CampusAccess buildings={buildings} /> 
+          <CampusAccess buildings={buildings} />
         </div>
       </div>
 
@@ -150,10 +133,10 @@ function Home() {
       <div ref={contactUsRef} id="contact-us">
         <div className="title">Developed by</div>
         <div className="developer-list">
-          <a href="https://x.com/_ghadaa112" target="_blank" rel="noopener noreferrer">Ghada Allaythi</a>
-          <a href="https://x.com/xflojain" target="_blank" rel="noopener noreferrer">Lojain Alghamdi</a>
-          <a href="https://x.com/itzrafal_" target="_blank" rel="noopener noreferrer">Rafal Fakeera</a>
-          <a href="https://x.com/Marya_Fawaz" target="_blank" rel="noopener noreferrer">Marya Alkanani</a>
+          <a href="https://x.com/_ghadaa112" target="_blank">Ghada Allaythi</a>
+          <a href="https://x.com/xflojain" target="_blank">Lojain Alghamdi</a>
+          <a href="https://x.com/itzrafal_" target="_blank">Rafal Fakeera</a>
+          <a href="https://x.com/Marya_Fawaz" target="_blank">Marya Alkanani</a>
         </div>
         <div className="slogan">Simplifying Your FCIT Campus Journey</div>
         <div className="footer">

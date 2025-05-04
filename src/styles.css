@@ -469,3 +469,8 @@ input::placeholder {
 .campus-card:hover .card-overlay {
   opacity: 1;
 }
+
+.course-block:hover {
+  background-color: #dff0d8;
+  cursor: pointer;
+}

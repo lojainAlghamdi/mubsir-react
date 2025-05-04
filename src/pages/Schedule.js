@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import "../styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
 function Schedule() {
   const [courses, setCourses] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -62,6 +63,8 @@ function Schedule() {
         .then(res => res.json())
         .then(response => {
           const courseData = response.data;
+          console.log(courseData.sections[0].classes[0]);
+
           const courseCode = `${courseData.code}${courseData.number}`;
 
           const flatSections = courseData.sections.map(section => {
@@ -112,6 +115,7 @@ function Schedule() {
             course: selectedSection.course,
             instructor: selectedSection.instructor,
             section: selectedSection.section,
+            room: cls.room || "Unknown" // ✅ أضفنا رقم الغرفة
           };
         })
       );
@@ -123,7 +127,7 @@ function Schedule() {
     );
 
     if (hasConflict) {
-      alert("❌ يوجد تعارض زمني مع شعبة موجودة في الجدول.");
+      alert("There is a time conflict with an existing section in the schedule");
       return;
     }
 
@@ -148,6 +152,9 @@ function Schedule() {
     );
     setCourses(updatedCourses);
     localStorage.setItem("mubsir_schedule", JSON.stringify(updatedCourses));
+  
+    
+    localStorage.removeItem("selectedCourseForMap");
   };
 
   const getCourseCell = (day, time) => {
@@ -155,9 +162,14 @@ function Schedule() {
       .filter(c => c.day === day && c.time.startsWith(time))
       .map((match, index) => {
         const colorClass = `course-${match.section.slice(-1)}`;
+        const handleCourseClick = (courseInfo) => {
+          localStorage.setItem("selectedCourseForMap", JSON.stringify(courseInfo));
+          window.location.href = "/map"; // يوديك صفحة الماب
+        };
         return (
           <div key={index} className={`course-block ${colorClass}`}>
-            <div className="course-content">
+            <div className="course-content"
+              onClick={() => handleCourseClick(match)}>
               {match.course}<br />
               {match.instructor}<br />
               {match.time}

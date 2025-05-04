@@ -1,19 +1,16 @@
 import React, { useContext } from "react";
-import LoginModal from "../pages/Login";
-import SignupModal from "../pages/Signup";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
-import "../App.css";
-import { auth } from "../pages/firebase";
 import { signOut } from "firebase/auth";
+import { auth } from "../pages/firebase";
 import { AuthContext } from "../AuthContext"; 
-
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles.css";
+import "../App.css";
 
 function Navbar({ onLoginClick, onSignupClick }) {
   const navigate = useNavigate();
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext); // ✅ 2. use context
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
   const handleLogout = () => {
     signOut(auth)
@@ -47,19 +44,13 @@ function Navbar({ onLoginClick, onSignupClick }) {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link to="/" state={{ scrollTo: "about" }} className="nav-link px-3">
-                Home
-              </Link>
+              <Link to="/" className="nav-link px-3">Home</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link px-3" to="/schedule">
-                Schedule
-              </Link>
+              <Link to="/schedule" className="nav-link px-3">Schedule</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link px-3" to="/map">
-                Map
-              </Link>
+              <Link to="/map" className="nav-link px-3">Map</Link>
             </li>
             <li className="nav-item">
               <Link to="/" state={{ scrollTo: "contact" }} className="nav-link px-3">
